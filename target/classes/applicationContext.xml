@@ -16,7 +16,10 @@
 	<!--
 		 自动扫描与装配bean，即采用注解的方式对问键进行处理
 	 -->
+	<context:annotation-config />
 	<context:component-scan base-package="oa" />
+	<tx:annotation-driven transaction-manager="txManager"/>
+
 
 	<!-- 
 		导入外部的properties文件，导入后可以采用变量方式使用
@@ -95,5 +98,4 @@
 	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	<tx:annotation-driven transaction-manager="txManager"/>
 </beans>
