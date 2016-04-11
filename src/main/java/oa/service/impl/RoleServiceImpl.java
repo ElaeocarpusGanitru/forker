@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("roleService")
-@Transactional
 public class RoleServiceImpl extends DaoSupportImpl<Role> implements RoleService{
 
 }
