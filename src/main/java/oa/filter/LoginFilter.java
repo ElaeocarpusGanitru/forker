@@ -28,7 +28,7 @@ public class LoginFilter implements Filter{
 		User user = (User)object;
 		String url = request.getRequestURL().toString();
 		String actionName = url.substring(url.lastIndexOf("/"));
-		Boolean isLogin = actionName.contains("user_login");
+		Boolean isLogin = actionName.contains("user_loginUI") | actionName.contains("user_login");
 		
 		//用户已经登录或者尝试登录
 		if ((object != null) || isLogin) 
@@ -37,7 +37,7 @@ public class LoginFilter implements Filter{
 		}
 		else //用户没有登录
 		{
-			response.sendRedirect("user_login.action");
+			response.sendRedirect("user_loginIUI.action");
 			return ;
 		}
 	}

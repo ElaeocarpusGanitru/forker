@@ -24,4 +24,11 @@ public class PrivilegeServiceImpl extends DaoSupportImpl<Privilege>
 	public List<Privilege> listTop() {
 		return getTopPrivilege();
 	}
+
+	@Override
+	public List<String> findAllUrls() {
+		Session session = getSession();
+		String hql = "SELECT url From Privilege d WHERE d.url IS NOT NULL";
+		return  session.createQuery(hql).list();
+	}
 }

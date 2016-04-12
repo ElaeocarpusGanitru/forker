@@ -25,5 +25,8 @@ public class InitListener implements ServletContextListener{
 		PrivilegeService privilegeService  = (PrivilegeService)ac.getBean("privilegeService");
 		List<Privilege> privilege = privilegeService.listTop();  
 		event.getServletContext().setAttribute("privilegeList", privilege);
+		
+		List<String> privilegeUrls = privilegeService.findAllUrls();
+		event.getServletContext().setAttribute("privilegeUrls", privilegeUrls);
 	}  
 }
