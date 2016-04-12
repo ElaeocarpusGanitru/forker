@@ -1,8 +1,8 @@
 package oa.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,8 +28,31 @@ public class User {
 	private String email;
 	private String description;
 	
-	private Set<Role> roles; //多对多
+	private Set<Role> roles = new HashSet<Role>(); //多对多
 	private Department department; //多对一
+	
+	
+	public boolean hasPrivilegeByName(String name)
+	{
+		if ("admin".equals(loginName))
+		{
+			return true;
+		}
+		
+		for (Role role : roles)
+		{
+			for (Privilege p : role.getPrivileges())
+			{
+				if (p.getName().equals(name))
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+		
+	}
 	
 	@Id
 	@GeneratedValue
@@ -85,7 +108,7 @@ public class User {
 	//多对多
 	@JoinTable(name="user_role", joinColumns={@JoinColumn(name="userId", referencedColumnName="id")},
 			inverseJoinColumns={@JoinColumn(name="roleId", referencedColumnName="id")})
-	@ManyToMany
+	@ManyToMany(targetEntity=oa.domain.Role.class, fetch=FetchType.EAGER)
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -95,7 +118,7 @@ public class User {
 	
 	//多对一
 	@JoinColumn(name="departmentId")
-	@ManyToOne
+	@ManyToOne(targetEntity=oa.domain.Department.class)
 	public Department getDepartment() {
 		return department;
 	}

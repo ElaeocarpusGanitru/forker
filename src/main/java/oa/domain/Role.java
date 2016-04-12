@@ -1,5 +1,6 @@
 package oa.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -20,7 +21,8 @@ public class Role {
 	private Long id;
 	private String name;
 	private String description;
-	private Set<User> users;	//多对多
+	private Set<User> users = new HashSet<User>();	//多对多
+	private Set<Privilege> privileges = new HashSet<Privilege>();
 	
 	@Id
 	@GeneratedValue
@@ -43,7 +45,8 @@ public class Role {
 		this.description = description;
 	}
 	
-	@ManyToMany(fetch=FetchType.LAZY, mappedBy="roles")
+	
+	@ManyToMany(targetEntity=oa.domain.User.class, fetch=FetchType.EAGER, mappedBy="roles")
 	public Set<User> getUsers() {
 		return users;
 	}
@@ -51,6 +54,17 @@ public class Role {
 		this.users = users;
 	}
 	
+	@JoinTable(name="role_privilege",joinColumns={@JoinColumn(name="roleId", referencedColumnName="id")}, 
+			inverseJoinColumns={@JoinColumn(name="privilegeId", referencedColumnName="id")})
+	@ManyToMany(targetEntity=oa.domain.Privilege.class, fetch=FetchType.EAGER)
+	public Set<Privilege> getPrivileges() {
+		return privileges;
+	}
+	
+	public void setPrivileges(Set<Privilege> privileges) {
+		this.privileges = privileges;
+	}
+
 	@Override
 	public String toString() {
 		return "Role [id=" + id + ", name=" + name + ", description="

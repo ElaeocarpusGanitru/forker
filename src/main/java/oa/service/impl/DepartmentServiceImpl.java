@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("departmentService")
+@Transactional
 public class DepartmentServiceImpl extends DaoSupportImpl<Department>
 	implements DepartmentService
 {

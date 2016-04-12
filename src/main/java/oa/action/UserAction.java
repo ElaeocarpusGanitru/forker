@@ -133,7 +133,35 @@ public class UserAction extends ActionSupport{
 	
 		return "saveUI";
 	}
-
+	
+	
+	public String login()
+	{
+		System.out.println(user.getLoginName() + " : " + user.getPassword());
+		user = userService.getByNamePassword(user.getLoginName(), user.getPassword());
+		if (user != null)
+		{
+			ActionContext.getContext().getSession().put("user", user);
+			return "index";
+		}
+		else
+		{
+			addFieldError("message", "name or password error");
+			return "loginUI";
+		}
+	}
+	
+	public String loginUI()
+	{
+		return "loginUI";
+	}
+	
+	public String logout()
+	{
+		ActionContext.getContext().getSession().remove("user");
+		return "logout";
+	}
+	
 	public User getUser() {
 		return user;
 	}

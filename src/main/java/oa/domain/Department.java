@@ -1,5 +1,6 @@
 package oa.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -21,8 +22,8 @@ public class Department {
 	private String description;
 	
 	private Department parent;	//多对一
-	private Set<Department> children; //一对多
-	private Set<User> users;	//一对多
+	private Set<Department> children = new HashSet<Department>(); //一对多
+	private Set<User> users = new HashSet<User>();	//一对多
 	
 	@Id
 	@GeneratedValue
@@ -52,7 +53,7 @@ public class Department {
 
 	//多对一映射
 	@JoinColumn(name="parentId")
-	@ManyToOne
+	@ManyToOne(targetEntity=oa.domain.Department.class)
 	public Department getParent() {
 		return parent;
 	}
@@ -62,7 +63,7 @@ public class Department {
 	}
 
 	//一对多映射
-	@OneToMany(mappedBy="parent")
+	@OneToMany(targetEntity=oa.domain.Department.class,mappedBy="parent")
 	public Set<Department> getChildren() {
 		return children;
 	}
@@ -72,7 +73,7 @@ public class Department {
 	}
 
 	//一对多映射
-	@OneToMany(mappedBy="department")
+	@OneToMany(targetEntity=oa.domain.User.class, mappedBy="department")
 	public Set<User> getUsers() {
 		return users;
 	}
